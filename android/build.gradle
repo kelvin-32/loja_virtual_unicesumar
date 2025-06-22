@@ -1,3 +1,7 @@
+plugins {
+    id "dev.flutter.flutter-plugin-loader" version "x.x.x"
+}
+
 allprojects {
     repositories {
         google()

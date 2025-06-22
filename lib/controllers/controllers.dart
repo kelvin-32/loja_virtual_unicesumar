@@ -8,3 +8,4 @@ export 'home_controller.dart';
 export 'main_navigation_controller.dart';
 export 'favoritos_controller.dart';
 export 'order_controller.dart';
+// NÃO exporte a página de view aqui!

@@ -1,37 +1,40 @@
-import 'package:http/http.dart' as http;
-import '../models/models.dart';
-import '../common/common.dart';
+import '../models/product_model.dart';
 
-import 'dart:convert';
-import 'dart:math';
+class BannerModel {
+  final int id;
+  final String imageUrl;
+  final String title;
+  final double price;
+
+  BannerModel({
+    required this.id,
+    required this.imageUrl,
+    required this.title,
+    required this.price,
+  });
+}
 
 class BannerService {
   Future<List<BannerModel>> fetchBanners() async {
-    final response = await http.get(Uri.parse('${Common.baseUrl}/products'));
-
-    if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
-      final List<ProductModel> products = data.map((json) => ProductModel.fromJson(json)).toList();
-
-      // Embaralha a lista para ter produtos aleatórios
-      products.shuffle(Random());
-
-      // Seleciona no máximo 4 produtos
-      final selectedProducts = products.take(4).toList();
-
-      // Converte para BannerModel
-      final banners = selectedProducts.map((product) {
-        return BannerModel(
-          id: product.id,
-          imageUrl: product.image,
-          title: product.title,
-          price: product.price,
-        );
-      }).toList();
-
-      return banners;
-    } else {
-      throw Exception('Erro ao carregar banners: ${response.statusCode}');
-    }
+    // Simula banners com jogos em destaque
+    final banners = mockGames.take(4).map((game) {
+      return BannerModel(
+        id: game.id,
+        imageUrl: game.image,
+        title: game.title,
+        price: game.price,
+      );
+    }).toList();
+    return banners;
   }
+}
+
+class CartProductModel {
+  final ProductModel product;
+  final int quantity;
+
+  CartProductModel({
+    required this.product,
+    required this.quantity,
+  });
 }

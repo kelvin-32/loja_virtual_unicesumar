@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/date_symbol_data_local.dart';
-
 import './widgets/widgets.dart';
 import './views/views.dart';
 import 'bindings/initial_binding.dart';
@@ -25,7 +24,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Loja de Produtos',
+      title: 'Loja de Games', // Alterado para refletir o novo contexto
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
@@ -49,7 +48,7 @@ class MyApp extends StatelessWidget {
           elevation: 6,
           shape: StadiumBorder(),
         ),
-        cardTheme: CardTheme(
+        cardTheme: CardThemeData(
           color: Colors.white,
           elevation: 6,
           margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -61,7 +60,8 @@ class MyApp extends StatelessWidget {
           bodyLarge: TextStyle(fontSize: 16, color: Colors.black87),
           bodyMedium: TextStyle(fontSize: 14, color: Colors.black87),
           bodySmall: TextStyle(fontSize: 12, color: Colors.black54),
-          titleLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black87),
+          titleLarge: TextStyle(
+              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black87),
         ),
         chipTheme: ChipThemeData(
           backgroundColor: Colors.deepPurple,
@@ -74,10 +74,6 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-
-      // 👉 TIRA ISSO:
-      // home: MainNavigationPage(),
-
       initialRoute: '/',
       getPages: [
         GetPage(

@@ -1,11 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
-
-import './../../controllers/controllers.dart';
-import './../../models/models.dart';
+import '../../controllers/cart_controller.dart';
+import '../../models/product_model.dart';
 
 class ProductDetailPage extends StatefulWidget {
   final ProductModel product;
@@ -17,60 +15,26 @@ class ProductDetailPage extends StatefulWidget {
 }
 
 class _ProductDetailPageState extends State<ProductDetailPage> {
-  final NumberFormat currencyFormat = NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$');
-  final CartController cartController = Get.find<CartController>();
-  final FavoritosController favoritosController = Get.find<FavoritosController>();
-  final AuthController authController = Get.find<AuthController>();
-
-  bool get isLogado => authController.logado.value;
-
-  int quantidade = 1; // Stepper
+  int quantidade = 1;
+  final cartController = Get.find<CartController>();
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Detalhes do Produto'),
-        actions: [
-          /// Favoritar no AppBar
-          Obx(() {
-            final isFavorito = favoritosController.isFavorito(widget.product.id);
-            return IconButton(
-              icon: Icon(
-                isFavorito ? Icons.favorite : Icons.favorite_border,
-                color: isFavorito ? Colors.red : Colors.white,
-              ),
-              onPressed: () {
-                if (!isLogado) {
-                  Get.snackbar(
-                    'Acesso negado',
-                    'Faça login para favoritar produtos.',
-                    colorText: Colors.white,
-                    backgroundColor: Theme.of(context).primaryColor,
-                    snackPosition: SnackPosition.TOP,
-                    margin: const EdgeInsets.all(16),
-                    borderRadius: 12,
-                    icon: const Icon(Icons.lock_outline, color: Colors.white),
-                    duration: const Duration(seconds: 3),
-                  );
-                  return;
-                }
-                favoritosController.toggleFavorito(widget.product.id);
-              },
-            );
-          }),
-        ],
+        title: const Text('Detalhes do Jogo'),
       ),
-
       body: Column(
         children: [
-          /// Imagem grande
           Padding(
             padding: const EdgeInsets.only(top: 5),
             child: AspectRatio(
-              aspectRatio: 1.2, // bom para tela de detalhe
+              aspectRatio: 1.2,
               child: ClipRRect(
-                borderRadius: const BorderRadius.vertical(bottom: Radius.circular(12)),
+                borderRadius:
+                    const BorderRadius.vertical(bottom: Radius.circular(12)),
                 child: CachedNetworkImage(
                   imageUrl: widget.product.image,
                   fit: BoxFit.cover,
@@ -83,15 +47,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   ),
                   errorWidget: (context, url, error) => Container(
                     color: Colors.grey[300],
-                    child: const Icon(Icons.broken_image, size: 50, color: Colors.grey),
+                    child: const Icon(Icons.broken_image,
+                        size: 50, color: Colors.grey),
                   ),
                   fadeInDuration: const Duration(milliseconds: 300),
                 ),
               ),
             ),
           ),
-
-          /// Conteúdo
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(16),
@@ -99,69 +62,54 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    /// Nome
                     Text(
                       widget.product.title,
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      style: const TextStyle(
+                          fontSize: 22, fontWeight: FontWeight.bold),
                     ),
-                    const SizedBox(height: 12),
-
-                    /// Row com Preço + Quantidade
+                    const SizedBox(height: 8),
+                    Text(
+                      'Categoria: ${widget.product.category}',
+                      style:
+                          const TextStyle(fontSize: 14, color: Colors.black54),
+                    ),
+                    const SizedBox(height: 16),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        /// Preço
                         Text(
-                          currencyFormat.format(widget.product.price * quantidade),
+                          'R\$ ${widget.product.price.toStringAsFixed(2)}',
                           style: const TextStyle(
-                            color: Colors.deepPurple,
-                            fontSize: 20,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
+                            color: Colors.deepPurple,
                           ),
                         ),
-
-                        /// Quantidade (Stepper)
-                        Row(
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.remove_circle_outline),
-                              onPressed: () {
-                                setState(() {
-                                  if (quantidade > 1) {
-                                    quantidade--;
-                                  }
-                                });
-                              },
-                            ),
-                            Text(
-                              quantidade.toString(),
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            IconButton(
-                              icon: const Icon(Icons.add_circle_outline),
-                              onPressed: () {
-                                setState(() {
-                                  quantidade++;
-                                });
-                              },
-                            ),
-                          ],
+                        const Spacer(),
+                        IconButton(
+                          icon: const Icon(Icons.remove_circle_outline),
+                          onPressed: () {
+                            if (quantidade > 1) {
+                              setState(() {
+                                quantidade--;
+                              });
+                            }
+                          },
+                        ),
+                        Text('$quantidade',
+                            style: const TextStyle(fontSize: 16)),
+                        IconButton(
+                          icon: const Icon(Icons.add_circle_outline),
+                          onPressed: () {
+                            setState(() {
+                              quantidade++;
+                            });
+                          },
                         ),
                       ],
                     ),
-
                     const SizedBox(height: 16),
-
-                    /// Descrição
                     const Text(
-                      'Descrição:',
+                      'Descrição do Jogo:',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
@@ -182,8 +130,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           ),
         ],
       ),
-
-      /// Botão "Adicionar ao Carrinho" fixo na parte inferior
       bottomNavigationBar: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(12),
@@ -194,7 +140,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.deepPurple,
                 foregroundColor: Colors.white,
-                textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                textStyle:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -211,7 +158,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 }
 
                 Get.snackbar(
-                  'Itens adicionados ao carrinho',
+                  'Jogos adicionados ao carrinho',
                   '${quantidade}x ${widget.product.title} foram adicionados ao carrinho.',
                   colorText: Colors.white,
                   backgroundColor: Colors.green[900],
