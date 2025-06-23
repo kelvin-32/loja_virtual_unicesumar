@@ -19,35 +19,6 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController passwordController =
       TextEditingController(text: '123456789');
 
-  Future<void> _login() async {
-    final request = LoginRequestModel(
-      username: usernameController.text.trim(),
-      password: passwordController.text.trim(),
-    );
-
-    await authController.login(request);
-
-    if (authController.logado.value) {
-      // Sucesso → redireciona para MainNavigationPage (Home)
-      Get.offAllNamed('/');
-    } else {
-      // Falha → mostra erro
-      Get.snackbar(
-        'Erro de login',
-        authController.erro.value.isNotEmpty
-            ? authController.erro.value
-            : 'Falha ao fazer login.',
-        colorText: Colors.white,
-        backgroundColor: Colors.redAccent,
-        snackPosition: SnackPosition.TOP,
-        margin: const EdgeInsets.all(16),
-        borderRadius: 12,
-        icon: const Icon(Icons.error_outline, color: Colors.white),
-        duration: const Duration(seconds: 4),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

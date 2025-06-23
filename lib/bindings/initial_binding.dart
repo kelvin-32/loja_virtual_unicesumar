@@ -1,8 +1,6 @@
 import 'dart:convert';
-
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-
 import '../controllers/controllers.dart';
 import '../models/models.dart';
 import '../repository/repository.dart';
@@ -87,7 +85,7 @@ class InitialBinding extends Bindings {
     final box = GetStorage();
     String? userJson = box.read('usuario');
 
-    if (userJson != null && userJson != '{}' && userJson != '') {
+    if (userJson != null) {
       UserModel user = UserModel.fromJson(jsonDecode(userJson));
       Get.find<UserController>().user.value = user;
       Get.find<AuthController>().logado.value = true;

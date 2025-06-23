@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -9,10 +10,13 @@ import './views/views.dart';
 import 'bindings/initial_binding.dart';
 
 Future<void> main() async {
-  // Registrar os services globais
-
   WidgetsFlutterBinding.ensureInitialized();
-  databaseFactory = databaseFactoryFfi;
+  if (defaultTargetPlatform == TargetPlatform.windows ||
+      defaultTargetPlatform == TargetPlatform.linux ||
+      defaultTargetPlatform == TargetPlatform.macOS) {
+    // Só usa FFI no desktop
+    databaseFactory = databaseFactoryFfi;
+  }
   await Hive.initFlutter();
   await GetStorage.init(); // Inicializa o GetStorage
   // Inicializa locale para pt_BR

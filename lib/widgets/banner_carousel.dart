@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
-
 import '../controllers/controllers.dart';
 import '../views/views.dart';
 import './../models/models.dart';
@@ -26,7 +25,7 @@ class BannerCarousel extends StatelessWidget {
         enlargeCenterPage: true,
       ),
       items: banners.map((banner) {
-        ProductModel? produto = productController.getProdutoById(banner.id);
+        productController.getProdutoById(banner.id);
         return InkWell(
           onTap: () {
             final produto = productController.getProdutoById(banner.id);
