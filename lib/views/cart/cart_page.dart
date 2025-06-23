@@ -3,26 +3,36 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import '../../controllers/cart_controller.dart';
 import '../../controllers/auth_controller.dart';
+import '../../controllers/product_controller.dart';
 import '../../widgets/primary_button.dart';
 import '../../widgets/quantity_widget.dart';
 
 class CartPage extends StatelessWidget {
   final cartController = Get.find<CartController>();
+  final productController = Get.find<ProductController>();
 
   CartPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Sempre recarrega todos os produtos ao abrir o carrinho
+    productController.fetchProducts();
+
+    if (productController.carregando.value) {
+      return const Center(child: CircularProgressIndicator());
+    }
     final theme = Theme.of(context);
     final currencyFormat =
         NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$');
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Carrinho de Jogos'),
+        title: const Text('Carrinho Gamer'), // Alterado aqui!
       ),
       body: Obx(() {
         final itens = cartController.cartProducts;
+        final productList = productController.productList;
+
         if (itens.isEmpty) {
           return Center(
             child: Column(
@@ -32,7 +42,7 @@ class CartPage extends StatelessWidget {
                     size: 60, color: Colors.deepPurple),
                 const SizedBox(height: 16),
                 const Text(
-                  'Seu carrinho está vazio!',
+                  'Seu Carrinho Gamer está vazio!',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -67,6 +77,12 @@ class CartPage extends StatelessWidget {
                 itemCount: itens.length,
                 itemBuilder: (context, index) {
                   final item = itens[index];
+                  final produto = productList
+                      .firstWhereOrNull((p) => p.id == item.productId);
+                  if (produto == null) {
+                    return const SizedBox(); // Produto não encontrado
+                  }
+
                   return Card(
                     elevation: 3,
                     shape: RoundedRectangleBorder(
@@ -76,7 +92,7 @@ class CartPage extends StatelessWidget {
                       leading: ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: Image.network(
-                          item.imageUrl,
+                          produto.image,
                           width: 48,
                           height: 48,
                           fit: BoxFit.cover,
@@ -85,12 +101,12 @@ class CartPage extends StatelessWidget {
                         ),
                       ),
                       title: Text(
-                        item.title,
+                        produto.title,
                         style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 12),
                         overflow: TextOverflow.ellipsis,
                       ),
-                      subtitle: Text(currencyFormat.format(item.price)),
+                      subtitle: Text(currencyFormat.format(produto.price)),
                       trailing: QuantityWidget(
                         suffixText: 'Un',
                         value: item.quantity,

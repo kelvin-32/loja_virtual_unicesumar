@@ -1,25 +1,34 @@
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import '../models/banner_model.dart';
-import '../repository/banner_repository.dart';
+import '../services/banner_service.dart';
 
 class BannerController extends GetxController {
-  final BannerRepository bannerRepository;
+  final BannerService bannerService;
 
-  BannerController({required this.bannerRepository});
+  BannerController({required this.bannerService});
 
   // Lista de banners observável
-  final RxList<BannerModel> bannerList = <BannerModel>[].obs;
+  final RxList<BannerModel> banners = <BannerModel>[].obs;
+  var carregando = true.obs;
+  var erro = ''.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchBanners();
+  }
 
   // Carregar banners
   Future<void> fetchBanners() async {
     try {
-      final banners = await bannerRepository.getBanners();
-      bannerList.assignAll(banners);
+      carregando.value = true;
+      erro.value = '';
+      final result = await bannerService.fetchBanners();
+      banners.assignAll(result);
     } catch (e) {
-      if (kDebugMode) {
-        print('Erro ao buscar banners: $e');
-      }
+      erro.value = e.toString();
+    } finally {
+      carregando.value = false;
     }
   }
 }

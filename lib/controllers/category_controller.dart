@@ -22,3 +22,15 @@ class CategoryController extends GetxController {
     }
   }
 }
+
+final List<String> categoriasGames = [
+  'Jogos',
+  'Consoles',
+  'Acessórios',
+  'Gift Cards',
+  'Colecionáveis',
+];
+
+Future<List<String>> fetchCategories() async {
+  return categoriasGames;
+}

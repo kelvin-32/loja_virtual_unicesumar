@@ -1,32 +1,19 @@
-import '../models/product_model.dart';
+import '../models/banner_model.dart';
 
-class BannerModel {
+class ProductModel {
   final int id;
-  final String imageUrl;
   final String title;
+  final String description;
   final double price;
+  final String image;
 
-  BannerModel({
+  ProductModel({
     required this.id,
-    required this.imageUrl,
     required this.title,
+    required this.description,
     required this.price,
+    required this.image,
   });
-}
-
-class BannerService {
-  Future<List<BannerModel>> fetchBanners() async {
-    // Simula banners com jogos em destaque
-    final banners = mockGames.take(4).map((game) {
-      return BannerModel(
-        id: game.id,
-        imageUrl: game.image,
-        title: game.title,
-        price: game.price,
-      );
-    }).toList();
-    return banners;
-  }
 }
 
 class CartProductModel {
@@ -37,4 +24,11 @@ class CartProductModel {
     required this.product,
     required this.quantity,
   });
+}
+
+class BannerService {
+  Future<List<BannerModel>> fetchBanners() async {
+    // Retorna os banners mockados de jogos físicos
+    return mockBanners;
+  }
 }

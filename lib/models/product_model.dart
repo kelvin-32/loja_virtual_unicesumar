@@ -1,24 +1,5 @@
 import 'rating_model.dart';
 
-class RatingModel {
-  final double rate;
-  final int count;
-
-  RatingModel({required this.rate, required this.count});
-
-  factory RatingModel.fromJson(Map<String, dynamic> json) {
-    return RatingModel(
-      rate: (json['rate'] as num).toDouble(),
-      count: json['count'] as int,
-    );
-  }
-
-  Map<String, dynamic> toJson() => {
-        'rate': rate,
-        'count': count,
-      };
-}
-
 class ProductModel {
   final int id;
   final String title;
@@ -61,48 +42,109 @@ class ProductModel {
       };
 }
 
-// Exemplo de lista de jogos mockados
+// Exemplo de lista de produtos mockados
 final List<ProductModel> mockGames = [
+  // Jogos
   ProductModel(
     id: 1,
-    title: 'The Witcher 3: Wild Hunt',
-    description:
-        'RPG de ação em mundo aberto, premiado e aclamado pela crítica.',
-    image: 'https://upload.wikimedia.org/wikipedia/pt/0/0c/Witcher_3_capa.png',
-    price: 99.90,
-    category: 'RPG',
+    title: 'The Last of Us Part II',
+    description: 'Jogo de ação e aventura exclusivo para PlayStation 4 e 5.',
+    image: 'https://m.media-amazon.com/images/I/81r8JazHqzL._AC_SL1500_.jpg',
+    price: 199.90,
+    category: 'Jogos',
     rating: RatingModel(rate: 4.9, count: 1200),
   ),
   ProductModel(
     id: 2,
-    title: 'FIFA 24',
-    description:
-        'O maior simulador de futebol do mundo, com times e jogadores reais.',
-    image: 'https://upload.wikimedia.org/wikipedia/pt/7/7e/FIFA_24_capa.jpg',
+    title: 'Halo Infinite',
+    description: 'O mais novo capítulo da lendária franquia Halo.',
+    image: 'https://m.media-amazon.com/images/I/81p6yQK4pGL._AC_SL1500_.jpg',
     price: 249.90,
-    category: 'Esportes',
+    category: 'Jogos',
     rating: RatingModel(rate: 4.7, count: 800),
   ),
   ProductModel(
     id: 3,
-    title: 'Forza Horizon 5',
-    description:
-        'O melhor jogo de corrida em mundo aberto, com gráficos incríveis.',
-    image:
-        'https://upload.wikimedia.org/wikipedia/pt/1/1e/Forza_Horizon_5_capa.jpg',
-    price: 199.90,
-    category: 'Corrida',
+    title: 'FIFA 24',
+    description: 'O simulador de futebol mais jogado do mundo.',
+    image: 'https://m.media-amazon.com/images/I/81QwQlmQ6-L._AC_SL1500_.jpg',
+    price: 299.90,
+    category: 'Jogos',
     rating: RatingModel(rate: 4.8, count: 950),
   ),
   ProductModel(
     id: 4,
-    title: 'Stardew Valley',
-    description:
-        'Simulação de fazenda e vida no campo, com visual retrô e muito charme.',
-    image:
-        'https://upload.wikimedia.org/wikipedia/pt/3/3e/Stardew_Valley_capa.png',
-    price: 39.90,
-    category: 'Indie',
-    rating: RatingModel(rate: 4.9, count: 2000),
+    title: 'The Legend of Zelda: Tears of the Kingdom',
+    description: 'Novo jogo da franquia Zelda para Nintendo Switch.',
+    image: 'https://m.media-amazon.com/images/I/81p+Ek7t6-L._AC_SL1500_.jpg',
+    price: 349.90,
+    category: 'Jogos',
+    rating: RatingModel(rate: 5.0, count: 2000),
+  ),
+  // Consoles
+  ProductModel(
+    id: 5,
+    title: 'PlayStation 5',
+    description: 'Console de última geração da Sony, com SSD ultrarrápido.',
+    image: 'https://m.media-amazon.com/images/I/61v6b5PpQTL._AC_SL1500_.jpg',
+    price: 4499.99,
+    category: 'Consoles',
+    rating: RatingModel(rate: 4.9, count: 1200),
+  ),
+  ProductModel(
+    id: 6,
+    title: 'Xbox Series X',
+    description: 'Console poderoso da Microsoft, com gráficos em 4K.',
+    image: 'https://m.media-amazon.com/images/I/61JGKhqxHxL._AC_SL1500_.jpg',
+    price: 4299.99,
+    category: 'Consoles',
+    rating: RatingModel(rate: 4.8, count: 950),
+  ),
+  ProductModel(
+    id: 7,
+    title: 'Nintendo Switch OLED',
+    description: 'Console híbrido da Nintendo com tela OLED vibrante.',
+    image: 'https://m.media-amazon.com/images/I/71Q1Iu4suSL._AC_SL1500_.jpg',
+    price: 2499.99,
+    category: 'Consoles',
+    rating: RatingModel(rate: 4.7, count: 800),
+  ),
+  // Acessórios
+  ProductModel(
+    id: 9,
+    title: 'Controle DualSense PS5',
+    description: 'Controle sem fio para PlayStation 5 com feedback háptico.',
+    image: 'https://m.media-amazon.com/images/I/61OaU4Qh-GL._AC_SL1500_.jpg',
+    price: 499.90,
+    category: 'Acessórios',
+    rating: RatingModel(rate: 4.8, count: 900),
+  ),
+  ProductModel(
+    id: 10,
+    title: 'Controle Xbox Series',
+    description: 'Controle sem fio para Xbox Series X|S.',
+    image: 'https://m.media-amazon.com/images/I/61nPiOO2w-L._AC_SL1500_.jpg',
+    price: 449.90,
+    category: 'Acessórios',
+    rating: RatingModel(rate: 4.8, count: 900),
+  ),
+  ProductModel(
+    id: 11,
+    title: 'Base Carregadora DualSense',
+    description: 'Carregue dois controles PS5 simultaneamente.',
+    image: 'https://m.media-amazon.com/images/I/61ZbA7ZQ-GL._AC_SL1500_.jpg',
+    price: 249.90,
+    category: 'Acessórios',
+    rating: RatingModel(rate: 4.6, count: 500),
+  ),
+  // Colecionáveis
+  ProductModel(
+    id: 15,
+    title: 'Funko Pop! Master Chief',
+    description: 'Funko Pop do personagem Master Chief de Halo.',
+    image: 'https://m.media-amazon.com/images/I/61QwQlmQ6-L._AC_SL1500_.jpg',
+    price: 79.90,
+    category: 'Colecionáveis',
+    rating: RatingModel(rate: 4.9, count: 300),
   ),
 ];

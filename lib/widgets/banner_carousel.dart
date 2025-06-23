@@ -17,7 +17,8 @@ class BannerCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final NumberFormat currencyFormat = NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$');
+    final NumberFormat currencyFormat =
+        NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$');
     return CarouselSlider(
       options: CarouselOptions(
         height: 200,
@@ -28,17 +29,18 @@ class BannerCarousel extends StatelessWidget {
         ProductModel? produto = productController.getProdutoById(banner.id);
         return InkWell(
           onTap: () {
-            Get.to(() => ProductDetailPage(
-                product: produto ??
-                    ProductModel(
-                      id: banner.id,
-                      title: banner.title,
-                      image: banner.imageUrl,
-                      price: banner.price,
-                      description: '',
-                      category: '',
-                      rating: RatingModel(rate: 0, count: 0),
-                    )));
+            final produto = productController.getProdutoById(banner.id);
+            if (produto != null) {
+              Get.to(() => ProductDetailPage(product: produto));
+            } else {
+              Get.snackbar(
+                'Produto não encontrado',
+                'Este produto não está disponível.',
+                colorText: Colors.white,
+                backgroundColor: Colors.red,
+                snackPosition: SnackPosition.TOP,
+              );
+            }
           },
           child: Stack(
             children: [
@@ -56,7 +58,8 @@ class BannerCarousel extends StatelessWidget {
                   ),
                   errorWidget: (context, url, error) => Container(
                     color: Colors.grey[300],
-                    child: const Icon(Icons.broken_image, size: 50, color: Colors.grey),
+                    child: const Icon(Icons.broken_image,
+                        size: 50, color: Colors.grey),
                   ),
                   fadeInDuration: const Duration(milliseconds: 500),
                 ),
@@ -68,7 +71,8 @@ class BannerCarousel extends StatelessWidget {
                 left: 12,
                 right: 12,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   decoration: BoxDecoration(
                     color: Colors.black.withOpacity(0.6),
                     borderRadius: BorderRadius.circular(8),
@@ -88,7 +92,7 @@ class BannerCarousel extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        currencyFormat.format(banner.price),
+                        'R\$ ${banner.price.toStringAsFixed(2)}',
                         style: const TextStyle(
                           color: Colors.orangeAccent,
                           fontWeight: FontWeight.bold,

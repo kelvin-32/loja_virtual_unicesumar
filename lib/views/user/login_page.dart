@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import './../../controllers/controllers.dart';
 import './../../widgets/widgets.dart';
 import './../../models/models.dart';
@@ -15,8 +14,10 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final AuthController authController = Get.find<AuthController>();
 
-  final TextEditingController usernameController = TextEditingController(text: 'johnd');
-  final TextEditingController passwordController = TextEditingController(text: 'm38rmF\$');
+  final TextEditingController usernameController =
+      TextEditingController(text: 'kelvin_rosa');
+  final TextEditingController passwordController =
+      TextEditingController(text: '123456789');
 
   Future<void> _login() async {
     final request = LoginRequestModel(
@@ -33,7 +34,9 @@ class _LoginPageState extends State<LoginPage> {
       // Falha → mostra erro
       Get.snackbar(
         'Erro de login',
-        authController.erro.value.isNotEmpty ? authController.erro.value : 'Falha ao fazer login.',
+        authController.erro.value.isNotEmpty
+            ? authController.erro.value
+            : 'Falha ao fazer login.',
         colorText: Colors.white,
         backgroundColor: Colors.redAccent,
         snackPosition: SnackPosition.TOP,
@@ -68,7 +71,8 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 40),
 
               // Branding
-              const Icon(Icons.shopping_bag, size: 80, color: Colors.deepPurple),
+              const Icon(Icons.shopping_bag,
+                  size: 80, color: Colors.deepPurple),
               const SizedBox(height: 16),
               const Text(
                 'Minha Loja Online',
@@ -124,7 +128,19 @@ class _LoginPageState extends State<LoginPage> {
                     text: 'Entrar',
                     icon: Icons.login,
                     isLoading: authController.carregando.value,
-                    onPressed: _login,
+                    onPressed: () async {
+                      final success = await authController.login(
+                        LoginRequestModel(
+                          username: usernameController.text,
+                          password: passwordController.text,
+                        ),
+                      );
+                      if (success) {
+                        Get.offAllNamed('/home');
+                      } else {
+                        Get.snackbar('Erro', authController.erro.value);
+                      }
+                    },
                   )),
 
               const SizedBox(height: 16),
@@ -150,6 +166,38 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: () {
                   Get.offAllNamed('/');
                 },
+              ),
+
+              const SizedBox(height: 24),
+
+              // Botões de usuário pré-definidos
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      usernameController.text = 'kelvin_rosa';
+                      passwordController.text = '123456789';
+                    },
+                    child: const Text('Kelvin'),
+                  ),
+                  const SizedBox(width: 8),
+                  ElevatedButton(
+                    onPressed: () {
+                      usernameController.text = 'eric_vinicius';
+                      passwordController.text = '987654321';
+                    },
+                    child: const Text('Eric'),
+                  ),
+                  const SizedBox(width: 8),
+                  ElevatedButton(
+                    onPressed: () {
+                      usernameController.text = 'pedro_tadra';
+                      passwordController.text = '456987123';
+                    },
+                    child: const Text('Pedro'),
+                  ),
+                ],
               ),
             ],
           ),

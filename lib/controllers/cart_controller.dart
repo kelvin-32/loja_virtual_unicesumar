@@ -27,14 +27,16 @@ class CartController extends GetxController {
   Future<void> updateCartBadge() async {
     var cartQuantityItems = totalQuantity;
     if (cartKey?.currentState != null) {
-      await cartKey!.currentState!.runCartAnimation((++cartQuantityItems).toString());
+      await cartKey!.currentState!
+          .runCartAnimation((++cartQuantityItems).toString());
     }
   }
 
   Future<void> downgradeCartBadge() async {
     var cartQuantityItems = totalQuantity;
     if (cartKey?.currentState != null) {
-      await cartKey!.currentState!.runCartAnimation((--cartQuantityItems).toString());
+      await cartKey!.currentState!
+          .runCartAnimation((--cartQuantityItems).toString());
     }
   }
 
@@ -44,7 +46,8 @@ class CartController extends GetxController {
     }
   }
 
-  Future<void> itemSelectedCartAnimations(GlobalKey<State<StatefulWidget>> gkImage) async {
+  Future<void> itemSelectedCartAnimations(
+      GlobalKey<State<StatefulWidget>> gkImage) async {
     if (_runAddToCartAnimation != null) {
       await _runAddToCartAnimation!(gkImage);
       // Atualiza o badge após a animação da imagem
@@ -53,9 +56,11 @@ class CartController extends GetxController {
   }
 
 // Guarda a função de animação da imagem
-  Future<void> Function(GlobalKey<State<StatefulWidget>>)? _runAddToCartAnimation;
+  Future<void> Function(GlobalKey<State<StatefulWidget>>)?
+      _runAddToCartAnimation;
 
-  void setRunAddToCartAnimation(Future<void> Function(GlobalKey<State<StatefulWidget>>) animation) {
+  void setRunAddToCartAnimation(
+      Future<void> Function(GlobalKey<State<StatefulWidget>>) animation) {
     _runAddToCartAnimation = animation;
   }
 
@@ -65,7 +70,8 @@ class CartController extends GetxController {
 
   Future<void> atualizarquantity(int productId, int novaQuantidade) async {
     final productList = Get.find<ProductController>().productList;
-    final produto = productList.where((item) => item.id == productId).firstOrNull;
+    final produto =
+        productList.where((item) => item.id == productId).firstOrNull;
 
     if (produto == null || cart.value == null) return;
 
@@ -96,11 +102,19 @@ class CartController extends GetxController {
 
   Future<void> loadCartForUser(int userId) async {
     try {
-      await fetchCart(userId);
+      final cartUser = await cartRepository.getCartByUserId(userId);
+      cart.value = cartUser;
+      if (cartUser != null) {
+        final products = await cartRepository.getCartProducts(cartUser.id);
+        cartProducts.assignAll(products);
+      } else {
+        cartProducts.clear();
+      }
     } catch (e) {
       if (kDebugMode) {
         print('Erro ao carregar carrinho para user $userId: $e');
       }
+      cartProducts.clear();
     }
   }
 
@@ -125,7 +139,6 @@ class CartController extends GetxController {
   Future<void> addProductToCart(ProductModel produto, int quantity) async {
     try {
       final userId = Get.find<UserController>().user.value?.id;
-
       if (userId == null) {
         Get.snackbar(
           'Erro',
@@ -141,9 +154,20 @@ class CartController extends GetxController {
         return;
       }
 
+      // Cria carrinho se não existir
       if (cart.value == null) {
-        final newCartId = await cartRepository.saveCart(userId, DateTime.now().toIso8601String());
-        cart.value = CartModel(id: newCartId, userId: userId, date: DateTime.now(), products: []);
+        final cartUser = await cartRepository.getCartByUserId(userId);
+        if (cartUser != null) {
+          cart.value = cartUser;
+        } else {
+          final newCartId = await cartRepository.saveCart(
+              userId, DateTime.now().toIso8601String());
+          cart.value = CartModel(
+              id: newCartId,
+              userId: userId,
+              date: DateTime.now(),
+              products: []);
+        }
       }
 
       CartProductModel cartProduct = CartProductModel(
@@ -156,12 +180,33 @@ class CartController extends GetxController {
       await cartRepository.saveCartProduct(cart.value!.id, cartProduct);
 
       final products = await cartRepository.getCartProducts(cart.value!.id);
-      cartProducts.clear();
       cartProducts.assignAll(products);
+
+      // Feedback de sucesso
+      Get.snackbar(
+        'Produto adicionado',
+        '${produto.title} foi adicionado ao carrinho!',
+        colorText: Colors.white,
+        backgroundColor: Colors.green,
+        snackPosition: SnackPosition.TOP,
+        margin: const EdgeInsets.all(16),
+        borderRadius: 12,
+        icon: const Icon(Icons.check_circle_outline, color: Colors.white),
+        duration: const Duration(seconds: 2),
+      );
     } catch (e) {
       erro.value = e.toString();
-    } finally {
-      carregandoFinalizar.value = false;
+      Get.snackbar(
+        'Erro',
+        'Falha ao adicionar produto: $e',
+        colorText: Colors.white,
+        backgroundColor: Colors.red,
+        snackPosition: SnackPosition.TOP,
+        margin: const EdgeInsets.all(16),
+        borderRadius: 12,
+        icon: const Icon(Icons.error_outline, color: Colors.white),
+        duration: const Duration(seconds: 3),
+      );
     }
   }
 
@@ -218,7 +263,8 @@ class CartController extends GetxController {
 
       // Cria o OrderModel
       final order = OrderModel(
-        id: DateTime.now().millisecondsSinceEpoch, // ou use seu OrderService para gerar ID
+        id: DateTime.now()
+            .millisecondsSinceEpoch, // ou use seu OrderService para gerar ID
         userId: userId,
         date: DateTime.now(),
         status: OrderStatus.concluido,
@@ -271,7 +317,8 @@ class CartController extends GetxController {
   Future<void> updateProductQuantity(
       int productId, String title, double price, int newQuantity) async {
     final productList = Get.find<ProductController>().productList;
-    final produto = productList.where((item) => item.id == productId).firstOrNull;
+    final produto =
+        productList.where((item) => item.id == productId).firstOrNull;
 
     if (produto == null) {
       return;
@@ -306,5 +353,6 @@ class CartController extends GetxController {
     return cartProducts.fold(0, (sum, item) => sum + item.quantity);
   }
 
-  double get total => cartProducts.fold(0.0, (soma, item) => soma + item.price * item.quantity);
+  double get total =>
+      cartProducts.fold(0.0, (soma, item) => soma + item.price * item.quantity);
 }

@@ -64,3 +64,51 @@ class UserModel {
     );
   }
 }
+
+final List<Map<String, dynamic>> mockUsers = [
+  {
+    'id': 1,
+    'username': 'kelvin_rosa',
+    'password': '123456789',
+    'email': 'kelvin@teste.com',
+    'name': {'firstname': 'Kelvin', 'lastname': 'Rosa'},
+    'address': {
+      'city': 'Maringá',
+      'street': 'Rua das Flores',
+      'number': 101,
+      'zipcode': '87000-000',
+      'geolocation': {'lat': '-23.420999', 'long': '-51.933056'}
+    },
+    'phone': '44999990001',
+  },
+  {
+    'id': 2,
+    'username': 'eric_vinicius',
+    'password': '987654321',
+    'email': 'eric@teste.com',
+    'name': {'firstname': 'Eric', 'lastname': 'Vinicius'},
+    'address': {
+      'city': 'Londrina',
+      'street': 'Av. Brasil',
+      'number': 202,
+      'zipcode': '86000-000',
+      'geolocation': {'lat': '-23.304452', 'long': '-51.169582'}
+    },
+    'phone': '43999990002',
+  },
+  {
+    'id': 3,
+    'username': 'pedro_tadra',
+    'password': '456987123',
+    'email': 'pedro@teste.com',
+    'name': {'firstname': 'Pedro', 'lastname': 'Tadra'},
+    'address': {
+      'city': 'Curitiba',
+      'street': 'Rua XV de Novembro',
+      'number': 303,
+      'zipcode': '80020-310',
+      'geolocation': {'lat': '-25.428954', 'long': '-49.267137'}
+    },
+    'phone': '41999990003',
+  },
+];

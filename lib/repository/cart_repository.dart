@@ -1,3 +1,4 @@
+import './../database/app_database.dart';
 import './../models/models.dart';
 import './repository.dart';
 
@@ -30,5 +31,39 @@ class CartRepository {
   Future<void> deleteCart(int cartId) async {
     await cartProductsLocalRepository.deleteCartProducts(cartId);
     await cartLocalRepository.deleteCart(cartId);
+  }
+
+  Future<CartModel?> getCartByUserId(int userId) async {
+    final db = await AppDatabase().database;
+    final maps = await db.query(
+      'cart',
+      where: 'userId = ?',
+      whereArgs: [userId],
+      orderBy: 'id DESC',
+      limit: 1,
+    );
+    if (maps.isNotEmpty) {
+      final cartMap = maps.first;
+      final productMaps = await db.query(
+        'cart_products',
+        where: 'cartId = ?',
+        whereArgs: [cartMap['id']],
+      );
+      final products =
+          productMaps.map((map) => CartProductModel.fromJson(map)).toList();
+
+      final dateString = cartMap['date']?.toString() ?? '';
+      final date = dateString.isNotEmpty
+          ? DateTime.tryParse(dateString) ?? DateTime.now()
+          : DateTime.now();
+
+      return CartModel(
+        id: cartMap['id'] as int,
+        userId: cartMap['userId'] as int,
+        date: date,
+        products: products,
+      );
+    }
+    return null;
   }
 }

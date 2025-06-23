@@ -35,7 +35,8 @@ class CartLocalRepository {
         whereArgs: [cartId],
       );
 
-      final products = productMaps.map((map) => CartProductModel.fromJson(map)).toList();
+      final products =
+          productMaps.map((map) => CartProductModel.fromJson(map)).toList();
 
       // 3️⃣ Monta o CartModel completo
       return CartModel(

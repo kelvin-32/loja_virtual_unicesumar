@@ -1,5 +1,5 @@
-import './../services/banner_service.dart';
 import './../models/banner_model.dart';
+import './../services/banner_service.dart';
 
 class BannerRemoteRepository {
   final BannerService bannerService;

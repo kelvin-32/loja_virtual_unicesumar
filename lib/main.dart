@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import './widgets/widgets.dart';
 import './views/views.dart';
 import 'bindings/initial_binding.dart';
@@ -10,7 +12,8 @@ Future<void> main() async {
   // Registrar os services globais
 
   WidgetsFlutterBinding.ensureInitialized();
-
+  databaseFactory = databaseFactoryFfi;
+  await Hive.initFlutter();
   await GetStorage.init(); // Inicializa o GetStorage
   // Inicializa locale para pt_BR
   await initializeDateFormatting('pt_BR', null);

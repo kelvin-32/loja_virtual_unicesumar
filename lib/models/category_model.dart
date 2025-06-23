@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import './../controllers/controllers.dart';
 import './../views/views.dart';
 import './../views/favorite/favorites_page.dart' as favorite_view;
-import './../controllers/favoritos_controller.dart' as favorite_controller;
 
 class MainNavigationPage extends StatefulWidget {
   const MainNavigationPage({super.key});
@@ -79,7 +78,10 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
                 icon: Icon(Icons.receipt_long), label: 'Pedidos'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.favorite), label: 'Favoritos'),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Perfil'),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_cart),
+              label: 'Carrinho Gamer', // Alterado aqui!
+            ),
           ],
         ),
       ),
@@ -95,12 +97,7 @@ class CategoryModel {
 }
 
 final List<CategoryModel> gameCategories = [
-  CategoryModel(name: 'Ação', icon: '🎮'),
-  CategoryModel(name: 'Aventura', icon: '🗺️'),
-  CategoryModel(name: 'RPG', icon: '🧙‍♂️'),
-  CategoryModel(name: 'Esportes', icon: '⚽'),
-  CategoryModel(name: 'Estratégia', icon: '♟️'),
-  CategoryModel(name: 'Simulação', icon: '🚜'),
-  CategoryModel(name: 'Corrida', icon: '🏎️'),
-  CategoryModel(name: 'Indie', icon: '🌟'),
+  CategoryModel(name: 'Jogos', icon: '🎮'),
+  CategoryModel(name: 'Consoles', icon: '🕹️'),
+  CategoryModel(name: 'Gift Cards', icon: '💳'),
 ];

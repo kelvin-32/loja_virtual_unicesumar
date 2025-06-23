@@ -1,10 +1,9 @@
 import 'package:get/get.dart';
-
-import './../repository/repository.dart';
-import './../models/models.dart';
+import '../models/product_model.dart';
+import '../repository/product_remote_repository.dart';
 
 class ProductController extends GetxController {
-  final ProductRepository productRepository;
+  final ProductRemoteRepository productRepository;
 
   ProductController({required this.productRepository});
 
@@ -28,8 +27,8 @@ class ProductController extends GetxController {
     try {
       carregando.value = true;
       erro.value = '';
-      final products = await productRepository.fetchProducts();
-      productList.assignAll(products);
+      productList
+          .assignAll(mockGames); // mockGames deve conter todos os produtos
     } catch (e) {
       erro.value = e.toString();
     } finally {
@@ -42,8 +41,9 @@ class ProductController extends GetxController {
     try {
       carregando.value = true;
       erro.value = '';
-      final products = await productRepository.fetchProductsByCategory(category);
-      productList.assignAll(products);
+      // Filtra os produtos mockados pela categoria
+      final filtered = mockGames.where((p) => p.category == category).toList();
+      productList.assignAll(filtered);
     } catch (e) {
       erro.value = e.toString();
     } finally {
@@ -66,10 +66,6 @@ class ProductController extends GetxController {
   }
 
   ProductModel? getProdutoById(int id) {
-    try {
-      return productList.firstWhereOrNull((produto) => produto.id == id);
-    } catch (_) {
-      return null;
-    }
+    return productList.firstWhereOrNull((p) => p.id == id);
   }
 }

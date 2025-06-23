@@ -50,7 +50,8 @@ class _SignUpPageState extends State<SignUpPage> {
       _isLoading = false;
     });
 
-    if (usuarioController.erro.value.isEmpty && usuarioController.user.value != null) {
+    if (usuarioController.erro.value.isEmpty &&
+        usuarioController.user.value != null) {
       Get.snackbar(
         'Cadastro realizado',
         'Sua conta foi criada com sucesso!',
@@ -82,6 +83,31 @@ class _SignUpPageState extends State<SignUpPage> {
     }
   }
 
+  void cadastrarNovoUsuario(String username, String password, String email) {
+    final existe = mockUsers.any((u) => u['username'] == username);
+    if (existe) {
+      Get.snackbar('Erro', 'Usuário já existe');
+      return;
+    }
+    mockUsers.add({
+      'id': mockUsers.length + 1,
+      'username': username,
+      'password': password,
+      'email': email,
+      'name': {'firstname': '', 'lastname': ''},
+      'address': {
+        'city': '',
+        'street': '',
+        'number': 0,
+        'zipcode': '',
+        'geolocation': {'lat': '', 'long': ''}
+      },
+      'phone': '',
+    });
+    Get.snackbar('Sucesso', 'Cadastro realizado! Faça login.');
+    Get.offAllNamed('/login');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,7 +131,8 @@ class _SignUpPageState extends State<SignUpPage> {
               const SizedBox(height: 15),
 
               // Branding
-              const Icon(Icons.shopping_bag, size: 80, color: Colors.deepPurple),
+              const Icon(Icons.shopping_bag,
+                  size: 80, color: Colors.deepPurple),
               const SizedBox(height: 16),
               const Text(
                 'Minha Loja Online',

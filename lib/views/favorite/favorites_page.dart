@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controllers/favoritos_controller.dart';
-import '../../models/product_model.dart'; // Importe seu model de produto
+import '../../controllers/product_controller.dart';
+import '../../models/product_model.dart'; // já importa o mockGames
 
 class FavoritesPage extends StatelessWidget {
   final favoritosController = Get.find<FavoritosController>();
@@ -9,13 +10,18 @@ class FavoritesPage extends StatelessWidget {
   FavoritesPage({super.key});
 
   // Função para buscar o produto pelo ID
-  ProductModel buscarProdutoPorId(int id) {
-    // Importe sua lista de produtos ou use um provider/serviço
-    return mockGames.firstWhere((p) => p.id == id);
+  ProductModel? buscarProdutoPorId(int id) {
+    final productList = Get.find<ProductController>().productList;
+    return productList.firstWhereOrNull((p) => p.id == id);
   }
 
   @override
   Widget build(BuildContext context) {
+    final productController = Get.find<ProductController>();
+    if (productController.carregando.value) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
     final theme = Theme.of(context);
 
     return Scaffold(
@@ -58,6 +64,10 @@ class FavoritesPage extends StatelessWidget {
           itemCount: favoritos.length,
           itemBuilder: (context, index) {
             final produto = buscarProdutoPorId(favoritos[index]);
+            if (produto == null) {
+              return const SizedBox(); // Produto não encontrado
+            }
+
             return ListTile(
               leading: ClipRRect(
                 borderRadius: BorderRadius.circular(8),

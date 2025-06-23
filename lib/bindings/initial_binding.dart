@@ -27,7 +27,8 @@ class InitialBinding extends Bindings {
     final authLocalRepository = AuthLocalRepository();
 
     // Repositories
-    final authRepository = AuthRepository(authLocalRepository, authRemoteRepository);
+    final authRepository =
+        AuthRepository(authLocalRepository, authRemoteRepository);
     Get.put(authRepository);
 
     final productRepository = ProductRepository(productRemoteRepository);
@@ -41,18 +42,21 @@ class InitialBinding extends Bindings {
 
     final userLocalRepository = UserLocalRepository();
     final userRemoteRepository = UserRemoteRepository(userService);
-    final userRepository = UserRepository(userLocalRepository, userRemoteRepository);
+    final userRepository =
+        UserRepository(userLocalRepository, userRemoteRepository);
     Get.put(userRepository);
 
     final cartLocalRepository = CartLocalRepository();
     final cartProductsLocalRepository = CartProductsLocalRepository();
-    final cartRepository = CartRepository(cartLocalRepository, cartProductsLocalRepository);
+    final cartRepository =
+        CartRepository(cartLocalRepository, cartProductsLocalRepository);
     Get.put(cartRepository);
     Get.put(CartController(cartRepository: cartRepository)); // OK
 
     final favoritosRepository = FavoritosRepository(FavoriteLocalRepository());
     Get.put(favoritosRepository);
-    Get.put(FavoritosController(favoritosRepository: favoritosRepository)); // ✅ ADD AQUI
+    Get.put(FavoritosController(
+        favoritosRepository: favoritosRepository)); // ✅ ADD AQUI
 
     // Controllers globais
     Get.put(MainNavigationController());
@@ -64,11 +68,10 @@ class InitialBinding extends Bindings {
     ));
 
     Get.put(UserController(userRepository: userRepository)); // OK
-
-    Get.put(BannerController(bannerRepository: bannerRepository));
+    Get.put(BannerController(bannerService: bannerService));
     Get.put(CategoryController(categoryRepository: categoryRepository));
-    Get.put(ProductController(productRepository: productRepository));
-    Get.put(AuthController(authRepository: authRepository));
+    Get.put(ProductController(productRepository: productRemoteRepository));
+    Get.put(AuthController());
 
     // Order
     Get.put(OrderService());
@@ -84,15 +87,15 @@ class InitialBinding extends Bindings {
     final box = GetStorage();
     String? userJson = box.read('usuario');
 
-    if (userJson != null) {
+    if (userJson != null && userJson != '{}' && userJson != '') {
       UserModel user = UserModel.fromJson(jsonDecode(userJson));
       Get.find<UserController>().user.value = user;
       Get.find<AuthController>().logado.value = true;
 
-      // Carregar dados do user:
+      // Carregar favoritos do usuário
       Get.find<FavoritosController>().loadFavoritosForUser(user.id);
+      // Carregar carrinho do usuário
       Get.find<CartController>().loadCartForUser(user.id);
-      Get.find<OrderController>().fetchOrdersForUser(user.id);
     }
   }
 }
