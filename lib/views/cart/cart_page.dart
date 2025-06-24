@@ -27,7 +27,7 @@ class CartPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Carrinho Gamer'), // Alterado aqui!
+        title: const Text('Carrinho Gamer'),
       ),
       body: Obx(() {
         final itens = cartController.cartProducts;
@@ -39,28 +39,29 @@ class CartPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Icon(Icons.videogame_asset,
-                    size: 60, color: Colors.deepPurple),
+                    size: 60, color: Color(0xFF00FFEA)),
                 const SizedBox(height: 16),
                 const Text(
                   'Seu Carrinho Gamer está vazio!',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+                    color: Colors.white,
+                    fontFamily: 'Orbitron',
                   ),
                 ),
                 const SizedBox(height: 8),
                 const Text(
                   'Adicione jogos ao carrinho para continuar.',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16, color: Colors.black54),
+                  style: TextStyle(fontSize: 16, color: Colors.white70),
                 ),
                 const SizedBox(height: 24),
                 PrimaryButton(
                   text: 'Continuar comprando',
                   icon: Icons.sports_esports,
                   onPressed: () {
-                    Get.offAllNamed('/');
+                    Get.offAllNamed('/home');
                   },
                 ),
               ],
@@ -103,14 +104,15 @@ class CartPage extends StatelessWidget {
                       title: Text(
                         produto.title,
                         style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 12),
+                            fontWeight: FontWeight.bold, fontSize: 12, color: Colors.white),
                         overflow: TextOverflow.ellipsis,
                       ),
-                      subtitle: Text(currencyFormat.format(produto.price)),
+                      subtitle: Text(currencyFormat.format(produto.price), style: TextStyle(color: Colors.white70)),
                       trailing: QuantityWidget(
                         suffixText: 'Un',
                         value: item.quantity,
                         result: (quantity) {
+                          print('Atualizando quantidade: $quantity');
                           cartController.atualizarquantity(
                               item.productId, quantity);
                         },
@@ -142,7 +144,7 @@ class CartPage extends StatelessWidget {
                   Obx(() => Text(
                         'Total: ${currencyFormat.format(cartController.total)}',
                         style: const TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.bold),
+                            fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
                       )),
                 ],
               ),

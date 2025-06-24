@@ -44,31 +44,30 @@ class BannerModel {
 // Exemplo de banners mockados
 final List<BannerModel> mockBanners = [
   BannerModel(
-    id: 101,
+    id: 4,
     imageUrl:
         'https://wafuu.com/cdn/shop/products/nintendo-switch-the-legend-of-zelda-tears-of-the-kingdom-950413.jpg?v=1706144130',
-    title: 'The Legend of Zelda: Tears of the Kingdom (Switch)',
+    title: 'The Legend of Zelda: Tears of the Kingdom',
     price: 349.90,
   ),
   BannerModel(
-    id: 102,
+    id: 1,
     imageUrl:
-        'https://http2.mlstatic.com/D_NQ_NP_709608-MLU78003402703_072024-O.webp',
-    title: 'God of War Ragnarok (PS5) - Mídia Física',
+        'https://cdn.awsli.com.br/600x450/51/51695/produto/42713594/3cfc3dfa30.jpg',
+    title: 'The Last of Us Part II',
+    price: 199.90,
+  ),
+  BannerModel(
+    id: 5,
+    imageUrl: 'https://imgs.casasbahia.com.br/1569668001/4xg.jpg?imwidth=500',
+    title: 'PlayStation 5',
+    price: 4499.99,
+  ),
+  BannerModel(
+    id: 3,
+    imageUrl:
+        'https://cdn.awsli.com.br/300x300/2395/2395453/produto/306748564/4979f11b66c4bdae90ff68636840e122-9u02t2d6s7.jpg',
+    title: 'FIFA 24',
     price: 299.90,
-  ),
-  BannerModel(
-    id: 103,
-    imageUrl:
-        'https://down-br.img.susercontent.com/file/2cf48df41ad2d68719929499bcf4b26d',
-    title: 'Forza Horizon 5 (Xbox Series) - Mídia Física',
-    price: 279.90,
-  ),
-  BannerModel(
-    id: 104,
-    imageUrl:
-        'https://http2.mlstatic.com/D_NQ_NP_735385-MLA81311846598_122024-O.webp',
-    title: 'Spider-Man: Miles Morales (PS5) - Mídia Física',
-    price: 259.90,
   ),
 ];

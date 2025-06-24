@@ -14,27 +14,28 @@ class OrdersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final NumberFormat currencyFormat = NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$');
-    final DateFormat dateTimeFormat = DateFormat('dd/MM/yy \'às\' HH:mm', 'pt_BR');
+    final NumberFormat currencyFormat =
+        NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$');
+    final DateFormat dateTimeFormat =
+        DateFormat('dd/MM/yy \'às\' HH:mm', 'pt_BR');
     final theme = Theme.of(context);
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Meus Pedidos Gamer'),
+      ),
       body: Obx(() {
         final pedidos = _orderController.orderList;
 
         if (pedidos.isEmpty) {
-          // Nenhum pedido
           return Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.receipt_long_outlined,
-                    size: 120,
-                    color: theme.primaryColor.withOpacity(0.6),
-                  ),
+                  Icon(Icons.receipt_long_outlined,
+                      size: 120, color: Color(0xFF00FFEA)),
                   const SizedBox(height: 24),
                   Text(
                     'Nenhum pedido encontrado',
@@ -42,7 +43,8 @@ class OrdersPage extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
-                      color: theme.primaryColor,
+                      color: Color(0xFF00FFEA),
+                      fontFamily: 'Orbitron',
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -51,7 +53,7 @@ class OrdersPage extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.black45,
+                      color: Colors.white70,
                     ),
                   ),
                   const SizedBox(height: 32),
@@ -96,7 +98,7 @@ class OrdersPage extends StatelessWidget {
                     border: Border.all(color: Colors.grey.shade300),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withOpacity(0.05),
+                        color: Colors.grey.withAlpha((0.05 * 255).toInt()),
                         blurRadius: 6,
                         offset: const Offset(0, 3),
                       ),
@@ -109,10 +111,12 @@ class OrdersPage extends StatelessWidget {
                         width: 50,
                         height: 50,
                         decoration: BoxDecoration(
-                          color: theme.primaryColor.withOpacity(0.1),
+                          color:
+                              theme.primaryColor.withAlpha((0.1 * 255).toInt()),
                           shape: BoxShape.circle,
                         ),
-                        child: Icon(Icons.shopping_bag_outlined, color: theme.primaryColor),
+                        child: Icon(Icons.shopping_bag_outlined,
+                            color: theme.primaryColor),
                       ),
                       const SizedBox(width: 12),
 
@@ -133,7 +137,9 @@ class OrdersPage extends StatelessWidget {
                             Text(
                               '${dateTimeFormat.format(data)} • ${totalItens.toString().padLeft(2, '0')} itens',
                               style: const TextStyle(
-                                  fontSize: 12, color: Colors.black54, fontWeight: FontWeight.w800),
+                                  fontSize: 12,
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.w800),
                             ),
                             const SizedBox(height: 4),
                             Text(
@@ -154,7 +160,8 @@ class OrdersPage extends StatelessWidget {
                         children: [
                           OrderStatusBadge(status: pedido.status),
                           const SizedBox(height: 8),
-                          const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+                          const Icon(Icons.arrow_forward_ios,
+                              size: 16, color: Colors.grey),
                         ],
                       ),
                     ],

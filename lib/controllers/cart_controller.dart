@@ -86,14 +86,19 @@ class CartController extends GetxController {
       );
 
       await cartRepository.saveCartProduct(cart.value!.id, cartProduct);
+      
+      // Atualiza lista local
+      final index = cartProducts.indexWhere((item) => item.productId == productId);
+      if (index >= 0) {
+        cartProducts[index] = cartProduct;
+      }
     } else {
       // Remove do banco
       await cartRepository.removeCartProduct(cart.value!.id, productId);
+      
+      // Remove da lista local
+      cartProducts.removeWhere((item) => item.productId == productId);
     }
-
-    // Atualiza lista local
-    final products = await cartRepository.getCartProducts(cart.value!.id);
-    cartProducts.assignAll(products);
   }
 
   void removerItem(int productId) {
@@ -349,9 +354,8 @@ class CartController extends GetxController {
     cartProducts.clear();
   }
 
-  int get totalQuantity {
-    return cartProducts.fold(0, (sum, item) => sum + item.quantity);
-  }
+  int get totalQuantity =>
+      cartProducts.fold(0, (total, item) => total + item.quantity);
 
   double get total =>
       cartProducts.fold(0.0, (soma, item) => soma + item.price * item.quantity);

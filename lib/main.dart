@@ -8,6 +8,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import './widgets/widgets.dart';
 import './views/views.dart';
 import 'bindings/initial_binding.dart';
+import 'routes/app_pages.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,68 +32,69 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Loja de Games', // Alterado para refletir o novo contexto
+      title: 'DARK Games', // Nome atualizado
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
         useMaterial3: true,
-        primaryColor: Colors.deepPurple,
-        scaffoldBackgroundColor: Colors.grey[100],
+        primaryColor: Colors.black,
+        scaffoldBackgroundColor: const Color(0xFF181A20),
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color.fromARGB(255, 152, 104, 235),
+          backgroundColor: Color(0xFF23272F),
           foregroundColor: Colors.white,
           elevation: 4,
           centerTitle: true,
           titleTextStyle: TextStyle(
-            fontSize: 20,
+            fontSize: 22,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: Color(0xFF00FFEA),
+            fontFamily: 'Orbitron',
           ),
-          iconTheme: IconThemeData(color: Colors.white),
+          iconTheme: IconThemeData(color: Color(0xFF00FFEA)),
         ),
         floatingActionButtonTheme: const FloatingActionButtonThemeData(
-          backgroundColor: Colors.deepPurple,
-          foregroundColor: Colors.white,
+          backgroundColor: Color(0xFF00FFEA),
+          foregroundColor: Colors.black,
           elevation: 6,
           shape: StadiumBorder(),
         ),
         cardTheme: CardThemeData(
-          color: Colors.white,
+          color: const Color(0xFF23272F),
           elevation: 6,
           margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(16),
           ),
         ),
         textTheme: const TextTheme(
-          bodyLarge: TextStyle(fontSize: 16, color: Colors.black87),
-          bodyMedium: TextStyle(fontSize: 14, color: Colors.black87),
-          bodySmall: TextStyle(fontSize: 12, color: Colors.black54),
+          bodyLarge: TextStyle(color: Colors.white, fontFamily: 'Orbitron'),
+          bodyMedium: TextStyle(color: Colors.white70, fontFamily: 'Orbitron'),
           titleLarge: TextStyle(
-              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black87),
+            color: Color(0xFF00FFEA),
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Orbitron',
+          ),
         ),
-        chipTheme: ChipThemeData(
-          backgroundColor: Colors.deepPurple,
-          selectedColor: Colors.orange,
-          secondarySelectedColor: Colors.orange,
-          labelStyle: const TextStyle(color: Colors.white),
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+        inputDecorationTheme: const InputDecorationTheme(
+          filled: true,
+          fillColor: Color(0xFF23272F),
+          labelStyle: TextStyle(color: Color(0xFF00FFEA)),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(12)),
+            borderSide: BorderSide(color: Color(0xFF00FFEA)),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(12)),
+            borderSide: BorderSide(color: Color(0xFF00FFEA)),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(12)),
+            borderSide: BorderSide(color: Color(0xFF00FFEA), width: 2),
           ),
         ),
       ),
-      initialRoute: '/',
-      getPages: [
-        GetPage(
-          name: '/',
-          page: () => const MainNavigationPage(),
-          binding: InitialBinding(),
-        ),
-        GetPage(name: '/cart', page: () => CartPage()),
-        GetPage(name: '/category/:category', page: () => CategoryPage()),
-        GetPage(name: '/signup', page: () => const SignUpPage()),
-        GetPage(name: '/login', page: () => const LoginPage()),
-      ],
+      initialBinding: InitialBinding(),
+      initialRoute: '/home',
+      getPages: AppPages.pages,
     );
   }
 }

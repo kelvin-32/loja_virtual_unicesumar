@@ -41,8 +41,26 @@ class ProductController extends GetxController {
     try {
       carregando.value = true;
       erro.value = '';
+      
+      // Mapeamento de categorias sem acento para categorias com acento
+      Map<String, String> categoryMap = {
+        'Acessorios': 'Acessórios',
+        'Colecionaveis': 'Colecionáveis',
+        'Gift Cards': 'Gift Cards',
+        'Jogos': 'Jogos',
+        'Consoles': 'Consoles'
+      };
+      
+      // Encontra a categoria correta com acentos
+      String correctCategory = category;
+      categoryMap.forEach((key, value) {
+        if (key.toLowerCase() == category.toLowerCase()) {
+          correctCategory = value;
+        }
+      });
+      
       // Filtra os produtos mockados pela categoria
-      final filtered = mockGames.where((p) => p.category == category).toList();
+      final filtered = mockGames.where((p) => p.category == correctCategory).toList();
       productList.assignAll(filtered);
     } catch (e) {
       erro.value = e.toString();

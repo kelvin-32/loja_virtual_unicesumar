@@ -42,23 +42,33 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 40),
 
               // Branding
-              const Icon(Icons.shopping_bag,
-                  size: 80, color: Colors.deepPurple),
+              const Icon(Icons.sports_esports,
+                  size: 90, color: Color(0xFF00FFEA)),
               const SizedBox(height: 16),
               const Text(
-                'Minha Loja Online',
+                'DARK Games',
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: Colors.deepPurple,
+                  color: Color(0xFF00FFEA),
+                  fontFamily: 'Orbitron',
+                  letterSpacing: 2,
+                  shadows: [
+                    Shadow(
+                      blurRadius: 8,
+                      color: Colors.black,
+                      offset: Offset(2, 2),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 8),
               const Text(
-                'Acesse sua conta para continuar',
+                'Entre no universo gamer',
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.black54,
+                  color: Colors.white70,
+                  fontFamily: 'Orbitron',
                 ),
               ),
 
@@ -135,40 +145,19 @@ class _LoginPageState extends State<LoginPage> {
                 text: 'Continuar comprando',
                 icon: Icons.shopping_cart_outlined,
                 onPressed: () {
-                  Get.offAllNamed('/');
+                  Get.offAllNamed('/home');
                 },
               ),
 
               const SizedBox(height: 24),
 
-              // Botões de usuário pré-definidos
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      usernameController.text = 'kelvin_rosa';
-                      passwordController.text = '123456789';
-                    },
-                    child: const Text('Kelvin'),
-                  ),
-                  const SizedBox(width: 8),
-                  ElevatedButton(
-                    onPressed: () {
-                      usernameController.text = 'eric_vinicius';
-                      passwordController.text = '987654321';
-                    },
-                    child: const Text('Eric'),
-                  ),
-                  const SizedBox(width: 8),
-                  ElevatedButton(
-                    onPressed: () {
-                      usernameController.text = 'pedro_tadra';
-                      passwordController.text = '456987123';
-                    },
-                    child: const Text('Pedro'),
-                  ),
-                ],
+              // Botão de usuário pré-definido
+              ElevatedButton(
+                onPressed: () {
+                  usernameController.text = 'kelvin_rosa';
+                  passwordController.text = '123456789';
+                },
+                child: const Text('Usar credenciais padrão'),
               ),
             ],
           ),

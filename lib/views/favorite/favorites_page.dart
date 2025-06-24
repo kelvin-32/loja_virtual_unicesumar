@@ -35,7 +35,7 @@ class FavoritesPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.favorite_border, size: 60, color: Colors.deepPurple),
+                Icon(Icons.favorite_border, size: 60, color: Color(0xFF00FFEA)),
                 SizedBox(height: 12),
                 Text(
                   'Nenhum favorito encontrado',
@@ -43,7 +43,8 @@ class FavoritesPage extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+                    color: Colors.white,
+                    fontFamily: 'Orbitron',
                   ),
                 ),
                 SizedBox(height: 12),
@@ -52,7 +53,7 @@ class FavoritesPage extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16,
-                    color: Colors.black45,
+                    color: Colors.white70,
                   ),
                 ),
               ],
@@ -80,8 +81,8 @@ class FavoritesPage extends StatelessWidget {
                       const Icon(Icons.broken_image),
                 ),
               ),
-              title: Text(produto.title),
-              subtitle: Text('R\$ ${produto.price.toStringAsFixed(2)}'),
+              title: Text(produto.title, style: TextStyle(color: Colors.white)),
+              subtitle: Text('R\$ ${produto.price.toStringAsFixed(2)}', style: TextStyle(color: Colors.white70)),
               trailing: IconButton(
                 icon: const Icon(Icons.favorite, color: Colors.red),
                 onPressed: () {

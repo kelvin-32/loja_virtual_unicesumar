@@ -21,7 +21,7 @@ class AuthService {
       if (localUser != null) {
         return LoginResponseModel(
           token:
-              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXIiOiJqb2huZCIsImlhdCI6MTc1MDM3NzI4NH0.weCwGHqmhHxCcS7F99jmqpwFlC8Ei1SMXrMLFyrGzaw',
+              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXIiOiJrZWx2aW5fcm9zYSIsImlhdCI6MTc1MDM3NzI4NH0.weCwGHqmhHxCcS7F99jmqpwFlC8Ei1SMXrMLFyrGzaw',
         );
       }
 

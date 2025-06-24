@@ -13,7 +13,7 @@ class CategoryTile extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
         decoration: BoxDecoration(
-          color: Colors.deepPurple,
+          color: const Color(0xFF00FF00), // Verde fluorescente
           borderRadius: BorderRadius.circular(24),
           boxShadow: const [
             BoxShadow(
@@ -27,7 +27,7 @@ class CategoryTile extends StatelessWidget {
           child: Text(
             category.toUpperCase(),
             style: const TextStyle(
-              color: Colors.white,
+              color: Colors.black, // Fonte preta
               fontWeight: FontWeight.bold,
               fontSize: 12,
             ),

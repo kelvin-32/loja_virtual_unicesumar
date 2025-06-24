@@ -23,6 +23,9 @@ class ProfilePage extends StatelessWidget {
     }
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Meu Perfil Gamer'),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Obx(() {
@@ -36,7 +39,7 @@ class ProfilePage extends StatelessWidget {
                     Icon(
                       Icons.account_circle_outlined,
                       size: 120,
-                      color: theme.primaryColor.withOpacity(0.7),
+                      color: theme.primaryColor.withAlpha((0.7 * 255).toInt()),
                     ),
                     const SizedBox(height: 24),
                     const Text(

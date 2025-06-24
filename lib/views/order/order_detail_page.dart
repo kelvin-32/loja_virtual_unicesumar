@@ -12,8 +12,10 @@ class OrderDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final NumberFormat currencyFormat = NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$');
-    final DateFormat dateTimeFormat = DateFormat('dd/MM/yyyy \'às\' HH:mm', 'pt_BR');
+    final NumberFormat currencyFormat =
+        NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$');
+    final DateFormat dateTimeFormat =
+        DateFormat('dd/MM/yyyy \'às\' HH:mm', 'pt_BR');
 
     final theme = Theme.of(context);
 
@@ -55,7 +57,7 @@ class OrderDetailPage extends StatelessWidget {
                   const SizedBox(height: 8),
                   Text(
                     'Data do pedido: ${dateTimeFormat.format(order.date)}',
-                    style: const TextStyle(fontSize: 14, color: Colors.black54),
+                    style: const TextStyle(fontSize: 14, color: Colors.black87),
                   ),
                 ],
               ),
@@ -78,22 +80,24 @@ class OrderDetailPage extends StatelessWidget {
                 final item = order.products[index];
 
                 // Opcional: buscar nome do produto (caso exista no ProductController)
-                final product = Get.find<ProductController>().getProdutoById(item.productId);
+                final product = Get.find<ProductController>()
+                    .getProdutoById(item.productId);
 
                 return ListTile(
                   contentPadding: EdgeInsets.zero,
                   leading: CircleAvatar(
-                    backgroundColor: theme.primaryColor.withOpacity(0.1),
+                    backgroundColor:
+                        theme.primaryColor.withAlpha((0.1 * 255).toInt()),
                     child: Text(
                       '${item.productId}',
                       style: TextStyle(color: theme.primaryColor),
                     ),
                   ),
-                  title: Text(product?.title ?? 'Produto ${item.productId}'),
-                  subtitle: Text('Quantidade: ${item.quantity}'),
+                  title: Text(product?.title ?? 'Produto ${item.productId}', style: TextStyle(color: Colors.white)),
+                  subtitle: Text('Quantidade: ${item.quantity}', style: TextStyle(color: Colors.white70)),
                   trailing: Text(
                     currencyFormat.format(item.quantity * item.price),
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                 );
               },

@@ -25,10 +25,9 @@ class BannerCarousel extends StatelessWidget {
         enlargeCenterPage: true,
       ),
       items: banners.map((banner) {
-        productController.getProdutoById(banner.id);
         return InkWell(
           onTap: () {
-            final produto = productController.getProdutoById(banner.id);
+            final produto = mockGames.firstWhereOrNull((p) => p.id == banner.id);
             if (produto != null) {
               Get.to(() => ProductDetailPage(product: produto));
             } else {
@@ -73,7 +72,7 @@ class BannerCarousel extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.6),
+                    color: Colors.black.withAlpha((0.6 * 255).toInt()),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Column(
@@ -91,7 +90,7 @@ class BannerCarousel extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        'R\$ ${banner.price.toStringAsFixed(2)}',
+                        currencyFormat.format(banner.price),
                         style: const TextStyle(
                           color: Colors.orangeAccent,
                           fontWeight: FontWeight.bold,

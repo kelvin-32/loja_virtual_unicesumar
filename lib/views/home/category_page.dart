@@ -11,14 +11,32 @@ class CategoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final categoria = Uri.decodeComponent(Get.parameters['category'] ?? '');
+    final categoriaEncoded = Get.parameters['category'] ?? '';
+    final categoria = Uri.decodeComponent(categoriaEncoded);
+    
+    // Mapeamento de categorias sem acento para categorias com acento para exibição
+    Map<String, String> categoryDisplayMap = {
+      'Acessorios': 'Acessórios',
+      'Colecionaveis': 'Colecionáveis',
+      'Gift Cards': 'Gift Cards',
+      'Jogos': 'Jogos',
+      'Consoles': 'Consoles'
+    };
+    
+    // Encontra o nome de exibição correto
+    String displayName = categoria;
+    categoryDisplayMap.forEach((key, value) {
+      if (key.toLowerCase() == categoria.toLowerCase()) {
+        displayName = value;
+      }
+    });
 
     // Dispara o carregamento ao entrar na página
     categoryController.fetchProductsByCategory(categoria);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Categoria: $categoria'),
+        title: Text('Categoria: $displayName'),
       ),
       body: Obx(() {
         if (categoryController.carregando.value) {

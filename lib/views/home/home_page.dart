@@ -39,28 +39,40 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 16),
 
               /// Categorias
-              const Text(
-                'Categorias',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              const Center(
+                child: Text(
+                  'Categorias',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
               ),
               const SizedBox(height: 8),
-              SizedBox(
-                height: 35,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: controller.categories.length,
-                  itemBuilder: (context, index) {
-                    final categoria = controller.categories[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 8),
-                      child: CategoryTile(
-                        category: categoria,
-                        onTap: () {
-                          Get.toNamed('/category/${Uri.encodeComponent(categoria)}');
-                        },
-                      ),
-                    );
-                  },
+              Center(
+                child: SizedBox(
+                  height: 35,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    itemCount: controller.categories.length,
+                    itemBuilder: (context, index) {
+                      final categoria = controller.categories[index];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: CategoryTile(
+                          category: categoria,
+                          onTap: () {
+                            // Usando uma abordagem mais segura para codificar a URL
+                            final encodedCategory = Uri.encodeComponent(categoria)
+                                .replaceAll('%C3%B3', 'o')  // ó
+                                .replaceAll('%C3%A1', 'a')  // á
+                                .replaceAll('%C3%A9', 'e')  // é
+                                .replaceAll('%C3%AD', 'i')  // í
+                                .replaceAll('%C3%BA', 'u'); // ú
+                            Get.toNamed('/category/$encodedCategory');
+                          },
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
 

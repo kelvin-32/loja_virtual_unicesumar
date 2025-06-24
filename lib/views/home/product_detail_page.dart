@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../controllers/cart_controller.dart';
+import '../../controllers/favoritos_controller.dart';
 import '../../models/product_model.dart';
 
 class ProductDetailPage extends StatefulWidget {
@@ -17,12 +18,38 @@ class ProductDetailPage extends StatefulWidget {
 class _ProductDetailPageState extends State<ProductDetailPage> {
   int quantidade = 1;
   final cartController = Get.find<CartController>();
+  final favoritosController = Get.find<FavoritosController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Detalhes do Jogo'),
+        actions: [
+          Obx(() => IconButton(
+            icon: Icon(
+              favoritosController.isFavorito(widget.product.id)
+                  ? Icons.favorite
+                  : Icons.favorite_border,
+              color: favoritosController.isFavorito(widget.product.id)
+                  ? Colors.red
+                  : Colors.white,
+            ),
+            onPressed: () {
+              favoritosController.toggleFavorito(widget.product.id);
+              Get.snackbar(
+                favoritosController.isFavorito(widget.product.id)
+                    ? 'Adicionado aos favoritos'
+                    : 'Removido dos favoritos',
+                widget.product.title,
+                snackPosition: SnackPosition.BOTTOM,
+                backgroundColor: Colors.black87,
+                colorText: Colors.white,
+                duration: const Duration(seconds: 2),
+              );
+            },
+          )),
+        ],
       ),
       body: Column(
         children: [
@@ -69,7 +96,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     Text(
                       'Categoria: ${widget.product.category}',
                       style:
-                          const TextStyle(fontSize: 14, color: Colors.black54),
+                          const TextStyle(fontSize: 14, color: Colors.white70),
                     ),
                     const SizedBox(height: 16),
                     Row(
@@ -118,7 +145,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       widget.product.description,
                       style: const TextStyle(
                         fontSize: 12,
-                        color: Colors.black87,
+                        color: Colors.white,
                       ),
                     ),
                   ],

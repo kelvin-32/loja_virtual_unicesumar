@@ -9,7 +9,7 @@ class OrderStatusBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color statusColor = _getStatusColor(status);
-    final Color bgColor = statusColor.withOpacity(0.1);
+    final Color bgColor = statusColor.withAlpha((0.1 * 255).toInt());
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -37,8 +37,6 @@ class OrderStatusBadge extends StatelessWidget {
         return Colors.orange;
       case OrderStatus.cancelado:
         return Colors.red;
-      default:
-        return Colors.blueGrey;
     }
   }
 }
